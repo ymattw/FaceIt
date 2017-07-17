@@ -10,6 +10,7 @@ import UIKit
 
 class FaceView: UIView {
     var scale: CGFloat = 0.9
+    var eyesOpen: Bool = true
 
     private var faceRadius: CGFloat {
         return min(bounds.size.width, bounds.size.height) / 2 * scale
@@ -24,7 +25,7 @@ class FaceView: UIView {
         case right
     }
 
-    // Ratios of size of face element to size of face
+    // Ratios of size of face element to size of face radius
     private struct Ratios {
         static let eyeOffset: CGFloat = 1/3
         static let eyeRadius: CGFloat = 0.1
@@ -44,10 +45,34 @@ class FaceView: UIView {
 
         let eyeRadius = faceRadius * Ratios.eyeRadius
         let eyeCenter = centerOfEye(eye)
-        let path = UIBezierPath(
-            arcCenter: eyeCenter, radius: eyeRadius, startAngle: 0,
-            endAngle: CGFloat.pi * 2, clockwise: true)
+
+        // This is ok given we are about to initialize it and only once
+        let path: UIBezierPath
+
+        if eyesOpen {
+            path = UIBezierPath(
+                arcCenter: eyeCenter, radius: eyeRadius, startAngle: 0,
+                endAngle: CGFloat.pi * 2, clockwise: true)
+        } else {
+            path = UIBezierPath()
+            path.move(to: CGPoint(x: eyeCenter.x - eyeRadius, y: eyeCenter.y))
+            path.addLine(to: CGPoint(x: eyeCenter.x + eyeRadius, y: eyeCenter.y))
+        }
+
         path.lineWidth = 5.0
+        return path
+    }
+
+    private func mouthPath() -> UIBezierPath {
+        let mouthWidth = faceRadius * Ratios.mouthWidth
+        let mouthHeight = faceRadius * Ratios.mouthHeight
+        let mouthOffset = faceRadius * Ratios.mouthOffset
+
+        let mouthRect = CGRect(x: faceCenter.x - mouthWidth / 2,
+                               y: faceCenter.y + mouthOffset,
+                               width: mouthWidth,
+                               height: mouthHeight)
+        let path = UIBezierPath(rect: mouthRect)
         return path
     }
 
@@ -64,5 +89,6 @@ class FaceView: UIView {
         facePath().stroke()
         eyePath(.left).stroke()
         eyePath(.right).stroke()
+        mouthPath().stroke()
     }
 }
