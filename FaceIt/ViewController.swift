@@ -9,8 +9,17 @@
 import UIKit
 
 class ViewController: UIViewController {
+
     @IBOutlet weak var faceView: FaceView! {
-        didSet { updateUI() }  // Update UI once view is connected, only once
+        didSet {
+            // selector must be ClassName.methodName(external_arg:), the syntax
+            // is just to identify the method name
+            let handler = #selector(FaceView.changeScale(recognizer:))
+            let pinchRecognizer = UIPinchGestureRecognizer(target: faceView, action: handler)
+            faceView.addGestureRecognizer(pinchRecognizer)
+
+            updateUI()  // Update UI once view is connected, only once
+        }
     }
 
     var faceModel: FaceModel = FaceModel(eyesAreOpen: true, mouthShape: .grin) {

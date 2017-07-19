@@ -10,8 +10,13 @@ import UIKit
 
 @IBDesignable
 class FaceView: UIView {
+
+    // Public APIs
+
     @IBInspectable
-    var scale: CGFloat = 0.9
+    var scale: CGFloat = 0.9 {
+        didSet { setNeedsDisplay() }  // redraw, don't call redraw() directly
+    }
 
     @IBInspectable
     var eyesOpen: Bool = true
@@ -24,6 +29,18 @@ class FaceView: UIView {
 
     @IBInspectable
     var faceColor: UIColor = UIColor.blue
+
+    func changeScale(recognizer r: UIPinchGestureRecognizer) {
+        switch r.state {
+        case .changed, .ended:
+            self.scale *= r.scale
+            r.scale = 1  // reset
+        default:
+            break
+        }
+    }
+
+    // Private implementations
 
     private var faceRadius: CGFloat {
         return min(bounds.size.width, bounds.size.height) / 2 * scale
