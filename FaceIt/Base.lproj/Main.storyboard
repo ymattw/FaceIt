@@ -43,6 +43,9 @@
                             <constraint firstAttribute="trailing" secondItem="eMX-2T-PT4" secondAttribute="trailing" id="x2j-li-Ky3"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="faceView" destination="eMX-2T-PT4" id="U1v-Bd-TkW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
