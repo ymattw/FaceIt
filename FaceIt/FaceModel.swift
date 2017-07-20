@@ -16,6 +16,18 @@ struct FaceModel {
         case neutral
         case grin
         case smile
+
+        // Following trick use the rawValue of the enum case, use '??' to
+        // determine if decreased/increased case is in range.  But it use
+        // var instead of func..
+        //
+        var sadder: MouthShape {
+            return MouthShape(rawValue: rawValue - 1) ?? .frown
+        }
+
+        var happier: MouthShape {
+            return MouthShape(rawValue: rawValue + 1) ?? .smile
+        }
     }
 
     let mouthCurvatures: [MouthShape:Double] = [
@@ -28,4 +40,15 @@ struct FaceModel {
 
     let eyesAreOpen: Bool
     let mouthShape: MouthShape
+
+    // Can also use var but func is more readable
+    func sadderFace() -> FaceModel {
+        return FaceModel(eyesAreOpen: self.eyesAreOpen,
+                         mouthShape: self.mouthShape.sadder)
+    }
+
+    func happierFace() -> FaceModel {
+        return FaceModel(eyesAreOpen: self.eyesAreOpen,
+                         mouthShape: self.mouthShape.happier)
+    }
 }
