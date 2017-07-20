@@ -23,6 +23,16 @@ class ViewController: UIViewController {
             tapRecognizer.numberOfTapsRequired = 1  // default
             faceView.addGestureRecognizer(tapRecognizer)
 
+            let swipeUpRecognizer = UISwipeGestureRecognizer(
+                target: self, action: #selector(increaseHappiness))
+            swipeUpRecognizer.direction = .up
+            faceView.addGestureRecognizer(swipeUpRecognizer)
+
+            let swipeDownRecognizer = UISwipeGestureRecognizer(
+                target: self, action: #selector(decreaseHappiness))
+            swipeDownRecognizer.direction = .down
+            faceView.addGestureRecognizer(swipeDownRecognizer)
+
             updateUI()  // Update UI once view is connected, only once
         }
     }
@@ -37,6 +47,15 @@ class ViewController: UIViewController {
             face = FaceModel(eyesAreOpen: !face.eyesAreOpen,
                              mouthShape: face.mouthShape)
         }
+    }
+
+    // Swipe gesture does not need argumets
+    func increaseHappiness() {
+        face = face.happierFace()
+    }
+
+    func decreaseHappiness() {
+        face = face.sadderFace()
     }
 
     private func updateUI() {
