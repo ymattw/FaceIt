@@ -42,12 +42,6 @@ class FaceView: UIView {
         }
     }
 
-    func toggleEyes(recognizer r: UITapGestureRecognizer) {
-        if r.state == .ended {
-            self.eyesOpen = !self.eyesOpen
-        }
-    }
-
     // Private implementations
 
     private var faceRadius: CGFloat {
