@@ -19,7 +19,9 @@ class FaceView: UIView {
     }
 
     @IBInspectable
-    var eyesOpen: Bool = true
+    var eyesOpen: Bool = true {
+        didSet { setNeedsDisplay() }
+    }
 
     @IBInspectable
     var mouthCurvature: Double = -0.5  // 1.0 is full smile, -1.0  is full frown
@@ -37,6 +39,12 @@ class FaceView: UIView {
             r.scale = 1  // reset
         default:
             break
+        }
+    }
+
+    func toggleEyes(recognizer r: UITapGestureRecognizer) {
+        if r.state == .ended {
+            self.eyesOpen = !self.eyesOpen
         }
     }
 

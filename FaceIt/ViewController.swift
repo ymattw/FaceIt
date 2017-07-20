@@ -14,9 +14,14 @@ class ViewController: UIViewController {
         didSet {
             // selector must be ClassName.methodName(external_arg:), the syntax
             // is just to identify the method name
-            let handler = #selector(FaceView.changeScale(recognizer:))
-            let pinchRecognizer = UIPinchGestureRecognizer(target: faceView, action: handler)
+            let pinchHandler = #selector(FaceView.changeScale(recognizer:))
+            let pinchRecognizer = UIPinchGestureRecognizer(target: faceView, action: pinchHandler)
             faceView.addGestureRecognizer(pinchRecognizer)
+
+            let tapHandler = #selector(FaceView.toggleEyes(recognizer:))
+            let tapRecognizer = UITapGestureRecognizer(target: faceView, action: tapHandler)
+            tapRecognizer.numberOfTapsRequired = 1  // default
+            faceView.addGestureRecognizer(tapRecognizer)
 
             updateUI()  // Update UI once view is connected, only once
         }
