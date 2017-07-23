@@ -27,5 +27,17 @@ class EmotionsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        let dest = segue.destination
+        if let faceViewController = dest as? FaceViewController {
+            if let face = emotionFaces[segue.identifier!] {
+                faceViewController.face = face
+            }
+        }
     }
+
+    private let emotionFaces: Dictionary<String,FaceModel> = [
+        "sad": FaceModel(eyesAreOpen: false, mouthShape: .frown),
+        "happy": FaceModel(eyesAreOpen: true, mouthShape: .smile),
+        "worried": FaceModel(eyesAreOpen: true, mouthShape: .smirk),
+    ]
 }
