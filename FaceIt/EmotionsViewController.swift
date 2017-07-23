@@ -27,8 +27,14 @@ class EmotionsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let dest = segue.destination
-        if let faceViewController = dest as? FaceViewController {
+        var destController = segue.destination
+
+        // Target is the NavigationController, we want to segue to its visible one.
+        if let naviController = destController as? UINavigationController {
+            destController = naviController.visibleViewController ?? destController
+        }
+
+        if let faceViewController = destController as? FaceViewController {
             if let face = emotionFaces[segue.identifier!] {
                 faceViewController.face = face
             }
