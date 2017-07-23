@@ -37,6 +37,7 @@ class EmotionsViewController: UIViewController {
         if let faceViewController = destController as? FaceViewController {
             if let face = emotionFaces[segue.identifier!] {
                 faceViewController.face = face
+                faceViewController.navigationItem.title = (sender as? UIButton)?.currentTitle
             }
         }
     }
